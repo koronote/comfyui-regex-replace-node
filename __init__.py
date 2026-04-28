@@ -44,8 +44,7 @@ class RegexReplaceNode:
             replaced = merged
 
         # 余分なスペースやカンマ、コメントアウト部分を削除
-        replaced = re.sub('//.*|\\n', "", replaced)
-        replaced = re.sub('#.*|\\n', "", replaced)
+        replaced = re.sub('//.*|#.*|\\n', "", replaced)
         replaced = re.sub('/\*.*?\*/', "", replaced)
         replaced = re.sub('\s{2,}', "", replaced)
         replaced = re.sub(',\s*,', ",", replaced)
