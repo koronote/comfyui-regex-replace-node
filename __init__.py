@@ -46,11 +46,12 @@ class RegexReplaceNode:
         # 余分なスペースやカンマ、コメントアウト部分を削除
         replaced = re.sub('//.*|#.*|\\n', "", replaced)
         replaced = re.sub('/\*.*?\*/', "", replaced)
-        replaced = re.sub('\s{2,}', "", replaced)
+        replaced = re.sub('\s{2,}', " ", replaced)
+        replaced = re.sub(',\s+', ",", replaced)
+        replaced = re.sub('\s+,', ",", replaced)
         replaced = re.sub(',\s*,', ",", replaced)
         replaced = re.sub(',{2,}', ",", replaced)
         replaced = re.sub(', ', ",", replaced)
-        replaced = re.sub(',', ", ", replaced)
 
         return {
             "ui": {"text": [merged, replaced]},
