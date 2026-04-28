@@ -60,7 +60,7 @@ app.registerExtension({
         nodeType.prototype.onNodeCreated = function () {
             onNodeCreated?.apply(this, arguments);
 
-            this.addWidget("button", "入力数を更新", null, () => {
+            this.addWidget("button", "Update num of inputs / 入力数を更新", null, () => {
                 syncInputs(this);
             });
 
@@ -105,7 +105,7 @@ app.registerExtension({
                 }
             }
 
-            const labels = ["マージ後テキスト", "置換後テキスト"];
+            const labels = ["merged text / マージ後テキスト", "replaced text / 置換後テキスト"];
             for (let i = 0; i < (message.text?.length ?? 0); i++) {
                 const w = ComfyWidgets["STRING"](
                     this,
