@@ -67,10 +67,11 @@ After execution, two preview widgets appear on the node:
 After the regex replacement the node always applies these cleanup steps:
 
 1. Remove `//` line comments and newlines
-2. Remove `/* … */` block comments
-3. Collapse consecutive whitespace
-4. Collapse repeated commas (`,,` → `,`)
-5. Normalize comma spacing (`, `)
+2. Remove `#` line comments and newlines
+3. Remove `/* … */` block comments
+4. Collapse consecutive whitespace
+5. Collapse repeated commas (`,,` → `,`)
+6. Normalize comma spacing (`, `)
 
 ---
 
