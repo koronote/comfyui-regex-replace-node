@@ -64,6 +64,14 @@ app.registerExtension({
                 syncInputs(this);
             });
 
+            // ボタンを input_count ウィジェットの直後に移動
+            const btn = this.widgets[this.widgets.length - 1];
+            const inputCountIdx = this.widgets.findIndex(w => w.name === "input_count");
+            if (inputCountIdx !== -1) {
+                this.widgets.splice(this.widgets.length - 1, 1);
+                this.widgets.splice(inputCountIdx + 1, 0, btn);
+            }
+
             // requestAnimationFrame で configure() の後に実行されることを保証する。
             // ロード時は configure() が入力を復元するため syncInputs をスキップする。
             const self = this;

@@ -18,13 +18,12 @@ class RegexReplaceNode:
         return {
             "required": {
                 "input_count": ("INT", {"default": 4, "min": 1, "step": 1, "display": "number"}),
-                "separator":   ("STRING", {"default": ", ", "multiline": False}),
                 "pattern":     ("STRING", {"default": "", "multiline": False}),
                 "deduplicate": ("BOOLEAN", {"default": False}),
             },
         }
 
-    def execute(self, input_count, separator, pattern, deduplicate=False, **kwargs):
+    def execute(self, input_count, pattern, deduplicate=False, **kwargs):
         # text_1 〜 text_{input_count} を順番に収集
         texts = []
         for i in range(1, input_count + 1):
@@ -32,7 +31,7 @@ class RegexReplaceNode:
             if t.strip():
                 texts.append(t + "\n")
 
-        merged = separator.join(texts)
+        merged = ",".join(texts)
 
         # 正規表現で置換
         if pattern.strip():
