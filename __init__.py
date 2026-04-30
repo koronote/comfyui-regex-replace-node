@@ -20,10 +20,11 @@ class RegexReplaceNode:
                 "input_count": ("INT", {"default": 4, "min": 1, "step": 1, "display": "number"}),
                 "separator":   ("STRING", {"default": ", ", "multiline": False}),
                 "pattern":     ("STRING", {"default": "", "multiline": False}),
+                "deduplicate": ("BOOLEAN", {"default": False}),
             },
         }
 
-    def execute(self, input_count, separator, pattern, **kwargs):
+    def execute(self, input_count, separator, pattern, deduplicate=False, **kwargs):
         # text_1 〜 text_{input_count} を順番に収集
         texts = []
         for i in range(1, input_count + 1):
@@ -52,6 +53,16 @@ class RegexReplaceNode:
         replaced = re.sub(',\s*,', ",", replaced)
         replaced = re.sub(',{2,}', ",", replaced)
         replaced = re.sub(', ', ",", replaced)
+
+        if deduplicate:
+            tags = [tag.strip() for tag in replaced.split(",")]
+            seen = set()
+            unique_tags = []
+            for tag in tags:
+                if tag and tag not in seen:
+                    seen.add(tag)
+                    unique_tags.append(tag)
+            replaced = ",".join(unique_tags)
 
         return {
             "ui": {"text": [merged, replaced]},
