@@ -7,7 +7,8 @@
 複数の文字列入力をマージし、正規表現にマッチした部分を削除するノード。
 
 **ファイル構成:**
-- `custom_nodes/regex_replace_node/__init__.py` — ノード本体
+- `custom_nodes/regex_replace_node/nodes/regex_replace.py` — `RegexReplaceNode` クラス本体
+- `custom_nodes/regex_replace_node/__init__.py` — `NODE_CLASS_MAPPINGS` 等のエントリポイント
 - `custom_nodes/regex_replace_node/web/js/regexReplace.js` — テキスト表示用フロントエンド拡張
 
 #### 入力
@@ -50,7 +51,7 @@
 1件のテキストを受け取り、ノード上に表示するノード。
 
 **ファイル構成:**
-- `custom_nodes/regex_replace_node/__init__.py` — `TextDisplayNode` クラス
+- `custom_nodes/regex_replace_node/nodes/text_display.py` — `TextDisplayNode` クラス本体
 - `custom_nodes/regex_replace_node/web/js/textDisplay.js` — フロントエンド拡張
 
 #### 入力 / 出力
@@ -72,7 +73,7 @@
 ComfyUI 標準の `SaveImage` を継承し、Lora の強度等を含む任意テキストをファイル名に埋め込めるようにしたノード。
 
 **ファイル構成:**
-- `custom_nodes/regex_replace_node/__init__.py` — `SaveImageWithWeight` クラス
+- `custom_nodes/regex_replace_node/nodes/save_image_with_weight.py` — `SaveImageWithWeight` クラス本体
 
 #### 追加入力
 
