@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(xargs grep *)",
+      "Bash(grep -o '.\\\\{0,150\\\\}filename_prefix.\\\\{0,150\\\\}' \"e:/ComfyUI/venv/Lib/site-packages/comfyui_frontend_package/static/assets/GraphView-CJ82Q72X.js\")",
+      "Bash(grep -o '.\\\\{0,200\\\\}SaveImage.\\\\{0,200\\\\}' \"e:/ComfyUI/venv/Lib/site-packages/comfyui_frontend_package/static/assets/core-CRhwbZ1e.js\")",
+      "Bash(grep -o '.\\\\{0,300\\\\}yyyy.\\\\{0,300\\\\}' \"e:/ComfyUI/venv/Lib/site-packages/comfyui_frontend_package/static/assets/core-CRhwbZ1e.js\")"
+    ]
+  }
+}
