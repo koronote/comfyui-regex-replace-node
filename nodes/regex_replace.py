@@ -1,4 +1,5 @@
 import re
+import unicodedata
 
 
 class RegexReplaceNode:
@@ -22,37 +23,42 @@ class RegexReplaceNode:
         texts = []
         for i in range(1, input_count + 1):
             t = kwargs.get(f"text_{i}") or ""
+            t = unicodedata.normalize("NFKC", t)
             if t.strip():
                 texts.append(t + "\n")
 
         merged = ",".join(texts)
 
-        if pattern.strip():
-            try:
-                replaced = re.sub(pattern, "", merged)
-            except re.error:
-                replaced = merged
+        if merged.startswith("{"):
+            replaced = merged   # JSON形式の場合は正規表現を適用せず、そのまま返す
         else:
-            replaced = merged
 
-        replaced = re.sub('/\*.*?\*/', "", replaced)
-        replaced = re.sub('//.*|#.*|\\n', "", replaced)
-        replaced = re.sub('\s{2,}', " ", replaced)
-        replaced = re.sub(',\s+', ",", replaced)
-        replaced = re.sub('\s+,', ",", replaced)
-        replaced = re.sub(',\s*,', ",", replaced)
-        replaced = re.sub(',{2,}', ",", replaced)
-        replaced = re.sub(', ', ",", replaced)
+            if pattern.strip():
+                try:
+                    replaced = re.sub(pattern, "", merged)
+                except re.error:
+                    replaced = merged
+            else:
+                replaced = merged
 
-        if deduplicate:
-            tags = [tag.strip() for tag in replaced.split(",")]
-            seen = set()
-            unique_tags = []
-            for tag in tags:
-                if tag and tag not in seen:
-                    seen.add(tag)
-                    unique_tags.append(tag)
-            replaced = ",".join(unique_tags)
+            replaced = re.sub(r'/\*.*?\*/', "", replaced)
+            replaced = re.sub(r'//.*|#.*|\n', "", replaced)
+            replaced = re.sub(r'\s{2,}', " ", replaced)
+            replaced = re.sub(r',\s+', ",", replaced)
+            replaced = re.sub(r'\s+,', ",", replaced)
+            replaced = re.sub(r',\s*,', ",", replaced)
+            replaced = re.sub(r',{2,}', ",", replaced)
+            replaced = re.sub(r', ', ",", replaced)
+
+            if deduplicate:
+                tags = [tag.strip() for tag in replaced.split(",")]
+                seen = set()
+                unique_tags = []
+                for tag in tags:
+                    if tag and tag not in seen:
+                        seen.add(tag)
+                        unique_tags.append(tag)
+                replaced = ",".join(unique_tags)
 
         return {
             "ui": {"text": [merged, replaced]},
