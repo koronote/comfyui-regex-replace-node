@@ -24,7 +24,7 @@ class RegexReplaceNode:
         for i in range(1, input_count + 1):
             t = kwargs.get(f"text_{i}") or ""
             t = unicodedata.normalize("NFKC", t)
-            t = re.sub(r'\n', ",", t)
+            # t = re.sub(r'\n', ",", t)
             if t.strip():
                 texts.append(t + "\n")
 
