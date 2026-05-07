@@ -24,6 +24,7 @@ class RegexReplaceNode:
         for i in range(1, input_count + 1):
             t = kwargs.get(f"text_{i}") or ""
             t = unicodedata.normalize("NFKC", t)
+            t = re.sub(r'\n', ",", t)
             if t.strip():
                 texts.append(t + "\n")
 
@@ -59,6 +60,8 @@ class RegexReplaceNode:
                         seen.add(tag)
                         unique_tags.append(tag)
                 replaced = ",".join(unique_tags)
+
+        replaced = re.sub(r'BREAK', "\nBREAK,\n", replaced)
 
         return {
             "ui": {"text": [merged, replaced]},
