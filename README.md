@@ -9,8 +9,10 @@ A custom node for [ComfyUI](https://github.com/comfyanonymous/ComfyUI) that merg
 ## Features / 機能
 
 - Merge up to N string inputs with a fixed `,` separator
+- Newlines in each input are converted to commas before merging
 - Remove matched text using a regular expression pattern
 - Automatically cleans up extra spaces, commas, and `//`|`#` line comments, as well as `/* … */` block comments
+- `BREAK` tokens are formatted as `\nBREAK,\n` in the output
 - Deduplicate tags (optional, off by default) — trims whitespace and removes duplicate entries while preserving order
 - Displays both the merged text and the replaced text directly on the node
 - Dynamically add/remove input sockets via the **"Update num of inputs"** button
@@ -18,8 +20,10 @@ A custom node for [ComfyUI](https://github.com/comfyanonymous/ComfyUI) that merg
 ---
 
 - 複数の文字列入力を `","` 固定区切りでマージ
+- 各入力テキストの改行はマージ前にカンマへ変換
 - 正規表現パターンを使用して、マッチしたテキストを削除
 - 余分なスペース、カンマ、`//`|`#` 行コメント、`/* … */` ブロックコメントを自動的にクリーンアップ
+- `BREAK` トークンを `\nBREAK,\n` に整形して出力
 - 重複タグの除去（任意、デフォルト OFF）— 前後の空白をトリムし、順序を保ちながら重複を削除
 - ノード上にマージされたテキストと置換されたテキストの両方を表示
 - **"入力数を更新"** ボタンで、動的に入力ソケットを追加/削除可能
@@ -90,6 +94,7 @@ After the regex replacement the node always applies these cleanup steps:
 3. Collapse consecutive whitespace
 4. Collapse repeated commas (`,,` → `,`)
 5. *(if `deduplicate` is ON)* Split by `,`, trim each tag, remove duplicates (order preserved), rejoin
+6. Format `BREAK` tokens as `\nBREAK,\n` (applies after deduplication)
 
 ---
 
@@ -125,10 +130,17 @@ masterpiece,best quality,extra tag,1girl,solo
 
 ```
 regex_replace_node/
-├── __init__.py          # Node logic (Python)
+├── __init__.py
+├── nodes/
+│   ├── __init__.py
+│   ├── regex_replace.py        # Regex Replace node
+│   ├── text_display.py         # Text Display node
+│   ├── load_image_out_path.py  # Load Image (Out Path) node
+│   └── save_image_with_weight.py  # Save Image With Weight node
 └── web/
     └── js/
-        └── regexReplace.js  # Frontend extension (dynamic sockets + preview widgets)
+        ├── regexReplace.js     # Frontend extension for Regex Replace
+        └── textDisplay.js      # Frontend extension for Text Display
 ```
 
 ---
